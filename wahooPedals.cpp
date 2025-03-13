@@ -1,7 +1,8 @@
 #include "wahooPedals.h"
+#include "MovingAverage.h"
 
 
-
+MovingAverage ma(5);  // 5-cycle moving average
 
 
     void BLEHandler::onDeviceDiscovered(const QBluetoothDeviceInfo &device) {
@@ -115,6 +116,8 @@
         qDebug() << "Left Power:" << leftPower;
         qDebug() << "Right Power:" << rightPower;
         qDebug() << "Error" << leftPower-rightPower;
+        qDebug() << "Averaged Error" << ma.update(leftPower-rightPower);
+
 
         power = static_cast<qint16>(data[5] | (data[6] << 8));
         qDebug() << "Cumulative torque:" << power;
